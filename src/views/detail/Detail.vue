@@ -113,7 +113,7 @@ export default {
       //获取滚动坐标y值
       const posY = -position.y
       for (let i = 0 ; i < this.topsY.length; i++) {
-        if (( posY > this.topsY[i] && posY < this.topsY[i+1] )||( i === this.topsY.length-1 && posY > this.topsY[i])) {
+        if (( posY >= this.topsY[i] && posY < this.topsY[i+1] )||( i === this.topsY.length-1 && posY >= this.topsY[i])) {
           this.$refs.detailNav.currentIndex = i
         }
       }
