@@ -1,7 +1,7 @@
 <template>
   <div class="cartList-button">
     <div class="check-button">
-      <check-button></check-button>
+      <check-button :isActive="isSelectAll" @click.native="checkClick"></check-button>
       <span>全选</span>
     </div>
     <div class="price">
@@ -30,6 +30,27 @@ export default {
     },
     checkLength() {
       return this.cartList.filter(item => item.check).length
+    },
+    isSelectAll() {
+      if (this.cartList.length === 0) return false
+      //利用find
+      return !this.cartList.find(item => !item.check)
+      // //遍历数组
+      // for(let item of this.cartList) {
+      //   if(!item.check) {
+      //     return false
+      //   }
+      // }
+      // return true
+    }
+  },
+  methods:{
+    checkClick() {
+      if(this.isSelectAll) {
+        this.cartList.forEach(item => item.check = false);
+      } else {
+        this.cartList.forEach(item => item.check = true);
+      }
     }
   }
 }

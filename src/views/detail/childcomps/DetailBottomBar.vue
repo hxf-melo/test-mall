@@ -70,7 +70,7 @@ methods:{
     font-size: 14px;
     color: #fff;
     padding: 6px 0;
-    line-height: 36px;
+    line-height: 38px;
     margin-right: 5px;
   }
 
