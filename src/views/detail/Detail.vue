@@ -28,7 +28,7 @@ import DetailBottomBar from './childcomps/DetailBottomBar.vue'
 
 import Scroll from '@/components/common/scroll/Scroll.vue'
 import {debounce} from '@/common/untils.js'
-import {mixin} from '@/common/mixin.js'
+import {goodsListmixin,backTop} from '@/common/mixin.js'
 import BackTop from '../../components/content/backTop/BackTop.vue'
 import {getDetail,getRecommend,Goods,Shops,ParamsInfo} from '@/network/detail'
 
@@ -45,7 +45,6 @@ export default {
     DetailRecommends,
     DetailBottomBar,
     Scroll,
-    BackTop,
     },
   data(){
     return {
@@ -58,7 +57,6 @@ export default {
       commentInfo: {},
       recommend: [],
       topsY:[],
-      isShowBackTop: false,
     }
   },
  
@@ -89,7 +87,7 @@ export default {
       this.recommend = res.data.list
     })
   },
-  mixins:[mixin],
+  mixins:[goodsListmixin,backTop],
   mounted(){},
   destroyed(){
     this.$bus.$off('ItemImageLoad',this.itemImgLoad)
@@ -119,10 +117,6 @@ export default {
       }
       //判断滚动位置来决定是否显示backTop
       this.isShowBackTop = -position.y > 1000
-    },
-    backTopClick(){
-      //回到顶部
-      this.$refs.scroll.scrollTo(0,0)
     },
     addTocart(){
       const product = {};

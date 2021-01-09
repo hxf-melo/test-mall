@@ -1,6 +1,7 @@
 import { debounce } from './untils'
+import BackTop from '@/components/content/backTop/BackTop.vue'
 
-export const mixin = {
+export const goodsListmixin = {
     data() {
         return {
             itemImgLoad: null,
@@ -15,5 +16,21 @@ export const mixin = {
             }
             //2.监听事件总线
         this.$bus.$on('ItemImageLoad', this.itemImgLoad)
+    }
+}
+export const backTop = {
+    data() {
+        return {
+            isShowBackTop: false,
+        }
+    },
+    components: {
+        BackTop
+    },
+    methods: {
+        backTopClick() {
+            //调用子组件的方法 this.$refs.xxx,子组件需要设置ref="xxx"
+            this.$refs.scroll.scrollTo(0, 0)
+        }
     }
 }

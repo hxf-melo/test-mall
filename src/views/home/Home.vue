@@ -9,17 +9,16 @@
       <tab-control :titles="['流行','新款','精选']"  @tabclick="tabclick" ref="tabcontrol1"/>
       <goods-list :goods="showGoods"/>
     </scroll>
-    <back-top @click.native="backClick" v-show="isShowBackTop"/>
+    <back-top @click.native="backTopClick" v-show="isShowBackTop"/>
   </div>
 </template>
 
 <script>
-import NavBar from '../../components/common/navbar/NavBar.vue'
-import TabControl from '../../components/content/tabcontrol/TabControl.vue'
+import NavBar from '@/components/common/navbar/NavBar.vue'
+import TabControl from '@/components/content/tabcontrol/TabControl.vue'
 
-import GoodsList from '../../components/content/goods/GoodsList.vue'
-import Scroll from '../../components/common/scroll/Scroll.vue'
-import BackTop from '../../components/content/backTop/BackTop.vue'
+import GoodsList from '@/components/content/goods/GoodsList.vue'
+import Scroll from '@/components/common/scroll/Scroll.vue'
 
 import HomeSwiper from './childComps/HomeSwiper.vue'
 import HomeRecommendsView from './childComps/HomeRecommendsView.vue'
@@ -27,7 +26,7 @@ import HomeFeatureView from './childComps/HomeFeatureView.vue'
 
 import {getHomeMultidata,getHomeGoods} from '@/network/home.js'
 import {debounce} from '@/common/untils'
-import {mixin} from '@/common/mixin.js'
+import {goodsListmixin,backTop} from '@/common/mixin.js'
 
 export default {
   components: {
@@ -38,7 +37,7 @@ export default {
     HomeFeatureView,
     GoodsList,
     Scroll,
-    BackTop,
+    
   },
   data() {
     return{
@@ -50,7 +49,6 @@ export default {
         'sell':{page:0,list:[]}
       },
       currentType:'pop',
-      isShowBackTop: false,
       tabOffSetTop: 0,
       isShowTabCtrl: false,
       saveY:0,
@@ -71,7 +69,7 @@ export default {
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
   },
-   mixins:[mixin],
+   mixins:[goodsListmixin,backTop],
   mounted() {},
   activated() {
     this.$refs.scroll.scrollTo(0,this.saveY,0)
@@ -105,10 +103,6 @@ export default {
       }
       this.$refs.tabcontrol1.currentIndex = index
       this.$refs.tabcontrol2.currentIndex = index
-    },
-    backClick() {
-      //调用子组件的方法 this.$refs.xxx,子组件需要设置ref="xxx"
-      this.$refs.scroll.scrollTo(0,0)
     },
     contentScroll(position) {
       //子组件传出的事件
