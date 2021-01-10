@@ -27,9 +27,11 @@ import DetailRecommends from './childcomps/DetailRecommends.vue'
 import DetailBottomBar from './childcomps/DetailBottomBar.vue'
 
 import Scroll from '@/components/common/scroll/Scroll.vue'
+import BackTop from '@/components/content/backTop/BackTop.vue'
+
+import {mapActions} from 'vuex'
 import {debounce} from '@/common/untils.js'
 import {goodsListmixin,backTop} from '@/common/mixin.js'
-import BackTop from '../../components/content/backTop/BackTop.vue'
 import {getDetail,getRecommend,Goods,Shops,ParamsInfo} from '@/network/detail'
 
 export default {
@@ -83,16 +85,18 @@ export default {
           }
     }),
     getRecommend().then(res =>{
-      
+      //推荐列表
       this.recommend = res.data.list
     })
   },
+  //混入
   mixins:[goodsListmixin,backTop],
   mounted(){},
   destroyed(){
     this.$bus.$off('ItemImageLoad',this.itemImgLoad)
   },
   methods:{
+    ...mapActions(['addCart']),
     detailImageLoad(){
       //或者用防抖函数
       this.$refs.scroll.refresh();
@@ -118,6 +122,7 @@ export default {
       //判断滚动位置来决定是否显示backTop
       this.isShowBackTop = -position.y > 1000
     },
+    //添加到购物车
     addTocart(){
       const product = {};
       product.images = this.topImages[0];
@@ -126,7 +131,13 @@ export default {
       product.desc = this.goods.desc;
       product.iid = this.iid;
 
-      this.$store.dispatch('addCart',product)
+      // this.$store.dispatch('addCart',product).then(res=>{
+      //   console.log(res);
+      // })
+      this.addCart(product).then(res =>{
+       this.$toast.show(res,800)
+      })
+
     }
   }
 }

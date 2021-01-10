@@ -9,7 +9,7 @@
       合计:
       <span>{{'￥'+totalPrice}}</span>
       </div>
-      <div class="account">
+      <div class="account" @click="accountClick">
         结算({{checkLength}})
       </div>
     </div>
@@ -50,6 +50,11 @@ export default {
         this.cartList.forEach(item => item.check = false);
       } else {
         this.cartList.forEach(item => item.check = true);
+      }
+    },
+    accountClick() {
+      if(!this.cartList.length || !this.cartList.find(item=>item.check)) {
+        this.$toast.show('请选择购买的商品',1200)
       }
     }
   }

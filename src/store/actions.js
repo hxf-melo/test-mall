@@ -1,13 +1,15 @@
 export default {
     addCart(context, payload) {
-        //1.查找之前的数组中是否有该元素
-        let oldProduct = context.state.cartList.find(item => item.iid === payload.iid)
-            //2.判断当前商品是否存在
-        if (oldProduct) {
-            context.commit('addCount', oldProduct)
-        } else {
-            payload.count = 1;
-            context.commit('addToCart', payload)
-        }
+        return new Promise((resolve, reject) => {
+            let oldProduct = context.state.cartList.find(item => item.iid === payload.iid)
+            if (oldProduct) {
+                context.commit('addCount', oldProduct);
+                resolve('当前商品数量+1')
+            } else {
+                payload.count = 1;
+                context.commit('addToCart', payload);
+                resolve('加入购物车成功')
+            }
+        })
     }
 }
